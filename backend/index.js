@@ -23,14 +23,19 @@ mongoose
 // Setup Server
 app.use(cors());
 app.use(express.json());
+app.use(ErrorController);
+
+// Router
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
 app.all("*", (req, res, next) => {
   next(new AppError(`URL ${req.originalUrl} does not exist`, 404));
 });
 
-app.use(ErrorController);
-
-const port = process.env.PORT || 3000;
-const server = app.listen(port, () => {
+// Starting
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
