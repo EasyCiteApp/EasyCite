@@ -25,10 +25,10 @@ const CitationType = ({citationStyles, handleStyleSelected}) => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute left-0 w-56 mt-6 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-y-auto">
+          <Menu.Items className="absolute left-0 w-90 mt-6 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-y-auto">
             <div className="px-4 py-1 truncate">
               {citationStyles.map((citationStyle, index) => (
-                <Menu.Item key={index} value={citationStyle}>
+                <Menu.Item key={index} value={citationStyle.citationFile}>
                   {({ active }) => (
                     <button
                       className={`${
@@ -36,7 +36,7 @@ const CitationType = ({citationStyles, handleStyleSelected}) => {
                       } group flex rounded-md items-center w-full px-2 py-2 text-base`}
                       onClick={handleStyleSelected}
                     >
-                      {citationStyle}
+                      {citationStyle.citationName}
                     </button>
                   )}
                 </Menu.Item>
