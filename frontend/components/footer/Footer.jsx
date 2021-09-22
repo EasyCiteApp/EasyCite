@@ -10,7 +10,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Manual Citation Guideline{' '}
           <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
         </a>
       </footer>

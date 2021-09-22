@@ -1,11 +1,11 @@
 import React from "react";
 import CitationType from "./CitationType";
 
-const SearchBar = () => {
+const SearchBar = ({citationStyles, handleStyleSelected}) => {
   return (
     <div className=" bg-white h-14 w-full md:w-3/5 lg:w-3/5 rounded-full border border-gray-600 mt-10 px-4 py-2  text-gray-600 focus-within:text-gray-600 justify-center items-center">
       <form className="flex h-full w-full justify-center items-center focus:ring-0">
-        <CitationType/>
+        <CitationType citationStyles={citationStyles} handleStyleSelected={handleStyleSelected}/>
         <input
           type="text"
           name="search"

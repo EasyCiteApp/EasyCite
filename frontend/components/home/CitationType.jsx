@@ -1,27 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
-const CitationType = () => {
-  const router = useRouter();
-
-  const citationStyles = [
-    "APA (5th ed.)",
-    "APA (6th ed.)",
-    "Harvard Style",
-    "IEEE",
-  ];
-
-  const handleStyleSelected = (e) => {
-    e.preventDefault();
-    console.log(e.target.value);
-    router.push({
-      pathname: '/',
-      query: { style: e.target.value },
-    })
-  };
-
+const CitationType = ({citationStyles, handleStyleSelected}) => {
   return (
     <Fragment>
       <Menu as="div" className="relative inline-block text-left">
@@ -48,14 +30,14 @@ const CitationType = () => {
               {citationStyles.map((citationStyle, index) => (
                 <Menu.Item key={index} value={citationStyle}>
                   {({ active }) => (
-                      <button
-                        className={`${
-                          active ? "text-indigo-600" : "text-gray-900"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-base`}
-                        onClick={handleStyleSelected}
-                      >
-                        {citationStyle}
-                      </button>
+                    <button
+                      className={`${
+                        active ? "text-indigo-600" : "text-gray-900"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-base`}
+                      onClick={handleStyleSelected}
+                    >
+                      {citationStyle}
+                    </button>
                   )}
                 </Menu.Item>
               ))}
