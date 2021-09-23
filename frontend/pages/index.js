@@ -13,17 +13,17 @@ const DynamicPreview = dynamic(() => import("../components/home/Preview"), {
 export default function Home() {
   const [sourceSelected, setSourceSelected] = useState("website");
   const [styleSelected, setStyleSelected] = useState(null);
-  const [citationStyles, setCitationStyles] = useState([]);
+  const [availableStyles, setAvailableStyles] = useState([]);
 
   const [citeInput, setCiteInput] = useState("");
-  const [citeInfo, setInfo] = useState("");
+  const [citePreview, setCitePreview] = useState("");
 
   useEffect(() => {
     axios
       .get("/styles")
       .then((res) => {
         console.log(res.data.data.availableStyles);
-        setCitationStyles(res.data.data.availableStyles);
+        setAvailableStyles(res.data.data.availableStyles);
       })
       .catch((error) => {
         console.log(error);
@@ -31,19 +31,17 @@ export default function Home() {
   }, []);
 
   const handleSourceSelected = (type) => {
-    console.log(type);
     setSourceSelected(type);
   };
 
   const handleStyleSelected = (e) => {
-    e.preventDefault();
-    console.log(e.target.value);
     setStyleSelected(e.target.value);
+    e.preventDefault();
   };
 
   const handleInputChange = (e) => {
-    e.preventDefault();
     setCiteInput(e.target.value);
+    e.preventDefault();
   };
 
   const handleInputSubmit = (e) => {
@@ -56,7 +54,6 @@ export default function Home() {
         url: citeInput,
       })
       .then((res) => {
-        console.log(res.data.data.metadata);
         let data = {
           ...res.data.data.metadata,
           style: styleSelected,
@@ -65,9 +62,7 @@ export default function Home() {
         return axios.post("/cite", data);
       })
       .then((res) => {
-        console.log(res.data.data[0]);
-        console.log(typeof res.data.data[0]);
-        setInfo(res.data.data[0]);
+        setCitePreview(res.data.data[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -88,12 +83,12 @@ export default function Home() {
           handleSourceSelected={handleSourceSelected}
         />
         <SearchBar
-          citationStyles={citationStyles}
+          citationStyles={availableStyles}
           handleStyleSelected={handleStyleSelected}
           handleInputChange={handleInputChange}
           handleInputSubmit={handleInputSubmit}
         />
-        {citeInfo !== "" && <DynamicPreview citeInfo={citeInfo} />}
+        {citePreview !== "" && <DynamicPreview citePreview={citePreview} />}
       </main>
     </>
   );

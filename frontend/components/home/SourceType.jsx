@@ -8,7 +8,7 @@ const SourceType = ({sourceSelected, handleSourceSelected}) => {
           <div
             className={
               sourceSelected === "website"
-                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-indigo-600"
+                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-purple-600"
                 : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-transparent"
             }
             onClick={() => handleSourceSelected("website")}
@@ -18,7 +18,7 @@ const SourceType = ({sourceSelected, handleSourceSelected}) => {
           <div
             className={
               sourceSelected === "paper"
-                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-indigo-600"
+                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-purple-600"
                 : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-transparent"
             }
             onClick={() => handleSourceSelected("paper")}
@@ -28,7 +28,7 @@ const SourceType = ({sourceSelected, handleSourceSelected}) => {
           <div
             className={
               sourceSelected === "book"
-                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-indigo-600"
+                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-purple-600"
                 : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-transparent"
             }
             onClick={() => handleSourceSelected("book")}
@@ -38,7 +38,7 @@ const SourceType = ({sourceSelected, handleSourceSelected}) => {
           <div
             className={
               sourceSelected === "others"
-                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-indigo-600"
+                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-purple-600"
                 : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-transparent"
             }
             onClick={() => handleSourceSelected("others")}

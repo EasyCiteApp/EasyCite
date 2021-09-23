@@ -32,7 +32,7 @@ const CitationType = ({citationStyles, handleStyleSelected}) => {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "text-indigo-600" : "text-gray-900"
+                        active ? "text-purple-600" : "text-gray-900"
                       } group flex rounded-md items-center w-full px-2 py-2 text-base`}
                       onClick={handleStyleSelected}
                     >
