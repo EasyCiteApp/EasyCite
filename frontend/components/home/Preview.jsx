@@ -50,9 +50,9 @@ const Preview = ({ citePreview }) => {
           <Interweave content={citePreview} />
         </div>
       </div>
-      <div className="mt-4 flex justify-end items-center">
+      <div className="mt-4 flex justify-end items-center uppercase">
         <button className="cursor-pointer bg-purple-600 text-gray-50 hover:text-white hover:bg-purple-700 py-2 px-3 rounded-md">
-          AUTO CITATION
+          Add to reference list
         </button>
       </div>
     </div>

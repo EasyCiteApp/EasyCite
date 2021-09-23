@@ -3,7 +3,6 @@ import Head from "next/head";
 import SearchBar from "../components/home/SearchBar";
 import SourceType from "../components/home/SourceType";
 import dynamic from "next/dynamic";
-import Interweave from 'interweave';
 import axios from "../components/axios";
 
 const DynamicPreview = dynamic(() => import("../components/home/Preview"), {
@@ -12,8 +11,9 @@ const DynamicPreview = dynamic(() => import("../components/home/Preview"), {
 
 export default function Home() {
   const [sourceSelected, setSourceSelected] = useState("website");
-  const [styleSelected, setStyleSelected] = useState(null);
-  const [availableStyles, setAvailableStyles] = useState([]);
+  const [availableStyles, setAvailableStyles] = useState([{citationName: "Select style"}]);
+  const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
+  
 
   const [citeInput, setCiteInput] = useState("");
   const [citePreview, setCitePreview] = useState("");
@@ -22,7 +22,6 @@ export default function Home() {
     axios
       .get("/styles")
       .then((res) => {
-        console.log(res.data.data.availableStyles);
         setAvailableStyles(res.data.data.availableStyles);
       })
       .catch((error) => {
@@ -34,9 +33,9 @@ export default function Home() {
     setSourceSelected(type);
   };
 
-  const handleStyleSelected = (e) => {
-    setStyleSelected(e.target.value);
-    e.preventDefault();
+  const handleStyleSelected = (style) => {
+    setStyleSelected(style);
+    console.log(style.citationFile);
   };
 
   const handleInputChange = (e) => {
@@ -56,7 +55,7 @@ export default function Home() {
       .then((res) => {
         let data = {
           ...res.data.data.metadata,
-          style: styleSelected,
+          style: styleSelected.citationFile,
           type: sourceSelected,
         };
         return axios.post("/cite", data);
@@ -84,6 +83,7 @@ export default function Home() {
         />
         <SearchBar
           citationStyles={availableStyles}
+          styleSelected={styleSelected}
           handleStyleSelected={handleStyleSelected}
           handleInputChange={handleInputChange}
           handleInputSubmit={handleInputSubmit}
