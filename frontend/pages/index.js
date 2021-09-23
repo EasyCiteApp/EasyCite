@@ -4,16 +4,16 @@ import SearchBar from "../components/home/SearchBar";
 import SourceType from "../components/home/SourceType";
 import dynamic from "next/dynamic";
 import axios from "../components/axios";
+import GetAuthor from "../utils/GetAuthor";
 
 const DynamicPreview = dynamic(() => import("../components/home/Preview"), {
-  ssr: false,
+  ssr: false
 });
 
 export default function Home() {
   const [sourceSelected, setSourceSelected] = useState("website");
-  const [availableStyles, setAvailableStyles] = useState([{citationName: "Select style"}]);
+  const [availableStyles, setAvailableStyles] = useState([{ citationName: "Select style" }]);
   const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
-  
 
   const [citeInput, setCiteInput] = useState("");
   const [citePreview, setCitePreview] = useState("");
@@ -53,8 +53,12 @@ export default function Home() {
         url: citeInput,
       })
       .then((res) => {
+        let authors = GetAuthor(res.data.data.metadata);
+        console.log(authors);
+
         let data = {
           ...res.data.data.metadata,
+          authors: authors,
           style: styleSelected.citationFile,
           type: sourceSelected,
         };
