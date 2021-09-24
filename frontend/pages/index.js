@@ -5,6 +5,7 @@ import SourceType from "../components/home/SourceType";
 import dynamic from "next/dynamic";
 import axios from "../components/axios";
 import GetAuthor from "../utils/GetAuthor";
+import { toast } from "react-toastify";
 
 const DynamicPreview = dynamic(() => import("../components/home/Preview"), {
   ssr: false,
@@ -74,19 +75,23 @@ export default function Home() {
           })
           .catch((error) => {
             console.log(error);
+            toast.error(
+              error.response?.data?.message ??
+                "Server Error! Please try again later"
+            );
           });
-          break;
+        break;
       case "book":
-        alert("We haven't support book citation yet");
+        toast.error("We haven't support book citation yet");
         break;
       case "article":
-        alert("We haven't support article citation yet");
+        toast.error("We haven't support article citation yet");
         break;
       case "others":
-        alert("We haven't support other citation yet");
+        toast.error("We haven't support other citation yet");
         break;
       default:
-        alert("Please select a valid citation source");
+        toast.error("Please select a valid citation source");
     }
   };
 
