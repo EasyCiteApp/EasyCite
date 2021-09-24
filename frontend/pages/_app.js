@@ -1,4 +1,5 @@
 import "tailwindcss/tailwind.css";
+import "./index.css";
 import Layout from "../components/layout/Layout";
 
 import { ToastContainer } from "react-toastify";
