@@ -144,7 +144,7 @@ export default function Home() {
         <title>Easy Cite</title>
         <link rel="icon" href="/easycite-logo.png" />
       </Head>
-      <main className="flex flex-col items-center m-0 min-h-screen w-full flex-1 px-20 text-center">
+      <main className="flex flex-col items-center min-h-screen w-full flex-1 px-20 text-center">
         <img src="/easycite.png" alt="Easy Cite Main Logo" />
         <h1 className="text-6xl font-bold">Citations made easy</h1>
         <SourceType
