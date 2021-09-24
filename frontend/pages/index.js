@@ -7,12 +7,14 @@ import axios from "../components/axios";
 import GetAuthor from "../utils/GetAuthor";
 
 const DynamicPreview = dynamic(() => import("../components/home/Preview"), {
-  ssr: false
+  ssr: false,
 });
 
 export default function Home() {
   const [sourceSelected, setSourceSelected] = useState("website");
-  const [availableStyles, setAvailableStyles] = useState([{ citationName: "Select style" }]);
+  const [availableStyles, setAvailableStyles] = useState([
+    { citationName: "Select style" },
+  ]);
   const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
 
   const [citeInput, setCiteInput] = useState("");
@@ -48,28 +50,44 @@ export default function Home() {
     console.log(citeInput);
     console.log(sourceSelected);
     console.log(styleSelected);
-    axios
-      .post(`/sources/${sourceSelected}`, {
-        url: citeInput,
-      })
-      .then((res) => {
-        let authors = GetAuthor(res.data.data.metadata);
-        console.log(authors);
 
-        let data = {
-          ...res.data.data.metadata,
-          authors: authors,
-          style: styleSelected.citationFile,
-          type: sourceSelected,
-        };
-        return axios.post("/cite", data);
-      })
-      .then((res) => {
-        setCitePreview(res.data.data[0]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    switch (sourceSelected) {
+      case "website":
+        axios
+          .post(`/sources/${sourceSelected}`, {
+            url: citeInput,
+          })
+          .then((res) => {
+            let authors = GetAuthor(res.data.data.metadata);
+            console.log(authors);
+
+            let data = {
+              ...res.data.data.metadata,
+              authors: authors,
+              style: styleSelected.citationFile,
+              type: sourceSelected,
+            };
+            return axios.post("/cite", data);
+          })
+          .then((res) => {
+            setCitePreview(res.data.data[0]);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+          break;
+      case "book":
+        alert("We haven't support book citation yet");
+        break;
+      case "article":
+        alert("We haven't support article citation yet");
+        break;
+      case "others":
+        alert("We haven't support other citation yet");
+        break;
+      default:
+        alert("Please select a valid citation source");
+    }
   };
 
   return (

@@ -1,50 +1,23 @@
 import React from "react";
 
 const SourceType = ({sourceSelected, handleSourceSelected}) => {
+  const sourceTypes = ["website", "book", "article", "others"];
   return (
     <div className="mt-10 justify-self-center">
       <div className="flex text-gray-700">
         <div className="flex h-8 font-medium ">
-          <div
+          {sourceTypes.map((source, index) => (
+            <div key={index}
             className={
-              sourceSelected === "website"
-                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-purple-600"
-                : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-transparent"
+              sourceSelected === `${source}`
+                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 capitalize border-purple-600"
+                : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 capitalize border-transparent"
             }
-            onClick={() => handleSourceSelected("website")}
+            onClick={() => handleSourceSelected(source)}
           >
-            Website
+            {source}
           </div>
-          <div
-            className={
-              sourceSelected === "paper"
-                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-purple-600"
-                : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-transparent"
-            }
-            onClick={() => handleSourceSelected("paper")}
-          >
-            Journal Paper
-          </div>
-          <div
-            className={
-              sourceSelected === "book"
-                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-purple-600"
-                : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-transparent"
-            }
-            onClick={() => handleSourceSelected("book")}
-          >
-            Book
-          </div>
-          <div
-            className={
-              sourceSelected === "others"
-                ? "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-purple-600"
-                : "md:flex mr-6 justify-center items-center hidden  cursor-pointer leading-5 transition-all duration-500 ease-in-out  border-b-4 border-transparent"
-            }
-            onClick={() => handleSourceSelected("others")}
-          >
-            Others
-          </div>
+          ))}
         </div>
       </div>
     </div>

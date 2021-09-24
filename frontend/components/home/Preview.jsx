@@ -10,10 +10,10 @@ const Preview = ({ citePreview }) => {
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold">Citation Preview</h3>
           <span className="flex justify-end">
-            <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 py-2 px-3 rounded-md uppercase mr-2">
+            <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm mr-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 mr-1"
+                className="h-5 w-5 mr-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -27,10 +27,10 @@ const Preview = ({ citePreview }) => {
               </svg>
               Edit
             </button>
-            <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 py-2 px-3 rounded-md uppercase">
+            <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 mr-1"
+                className="h-5 w-5 mr-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
