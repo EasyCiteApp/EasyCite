@@ -8,55 +8,19 @@ import GetAuthor from "../utils/GetAuthor";
 import { toast } from "react-toastify";
 import Loader from "../components/layout/Loader";
 
-const DynamicPreview = dynamic(() => import("../components/home/Preview"), {
+const DynamicCitation = dynamic(() => import("../components/home/Citation"), {
   ssr: false,
 });
 
-const citationReducer = (state, action) => {
-  switch (action.type) {
-    case "CITATION_INIT":
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-      };
-    case "CITATION_LOADING":
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    case "CITATION_SUCCESS":
-      return {
-        ...state,
-        data: action.payload,
-        isLoading: false,
-        isError: false,
-      };
-    case "CITATION_FAILURE":
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    default:
-      throw new Error();
-  }
-};
-
 export default function Home() {
-  const [sourceSelected, setSourceSelected] = useState("website");
   const [availableStyles, setAvailableStyles] = useState([
     { citationName: "Select style" },
   ]);
   const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
-
+  const [sourceSelected, setSourceSelected] = useState("website");
   const [citeInput, setCiteInput] = useState("");
-  const [citation, dispatchCitation] = useReducer(citationReducer, {
-    data: "",
-    isLoading: false,
-    isError: false,
-  });
+
+  const [metadata, setMetaData] = useState(null);
 
   useEffect(() => {
     axios
@@ -89,7 +53,7 @@ export default function Home() {
     console.log(citeInput);
     console.log(sourceSelected);
     console.log(styleSelected);
-    dispatchCitation({ type: "CITATION_LOADING" });
+    
     switch (sourceSelected) {
       case "website":
         axios
@@ -97,27 +61,10 @@ export default function Home() {
             url: citeInput,
           })
           .then((res) => {
-            let authors = GetAuthor(res.data.data.metadata);
-            console.log(authors);
-
-            let data = {
-              ...res.data.data.metadata,
-              authors: authors,
-              style: styleSelected.citationFile,
-              type: sourceSelected,
-            };
-            return axios.post("/cite", data);
-          })
-          .then((res) => {
-            dispatchCitation({
-              type: "CITATION_SUCCESS",
-              payload: res.data.data[0],
-            });
+            console.log(res);
+            setMetaData(res.data.data.metadata);
           })
           .catch((error) => {
-            dispatchCitation({
-              type: "CITATION_FAILURE",
-            });
             toast.error(
               error.response?.data?.message ??
                 "Server Error! Please try again later"
@@ -158,8 +105,7 @@ export default function Home() {
           handleInputChange={handleInputChange}
           handleInputSubmit={handleInputSubmit}
         />
-        {citation.isLoading && <Loader/>}
-        {citation.data !== "" && <DynamicPreview citePreview={citation.data} />}
+        {metadata && <DynamicCitation />}
       </main>
     </>
   );
