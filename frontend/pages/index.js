@@ -12,27 +12,12 @@ const DynamicCitation = dynamic(() => import("../components/home/Citation"), {
   ssr: false,
 });
 
-export default function Home() {
-  const [availableStyles, setAvailableStyles] = useState([
-    { citationName: "Select style" },
-  ]);
+export default function Home({availableStyles}) {
   const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
   const [sourceSelected, setSourceSelected] = useState("website");
   const [citeInput, setCiteInput] = useState("");
 
   const [metadata, setMetaData] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("/styles")
-      .then((res) => {
-        setAvailableStyles(res.data.data.availableStyles);
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Server Error! Please try again later");
-      });
-  }, []);
 
   const handleSourceSelected = (type) => {
     setSourceSelected(type);
@@ -109,4 +94,13 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+Home.getInitialProps = async () => {
+  const response = await axios.get("/styles");
+  const availableStyles = await response.data.data.availableStyles;
+
+  return {
+    availableStyles: availableStyles
+  }
 }
