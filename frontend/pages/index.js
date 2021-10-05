@@ -4,13 +4,13 @@ import SearchBar from "../components/home/SearchBar";
 import SourceType from "../components/home/SourceType";
 import dynamic from "next/dynamic";
 import axios from "../components/axios";
-import GetAuthor from "../utils/GetAuthor";
 import { toast } from "react-toastify";
-import Loader from "../components/layout/Loader";
 
 const DynamicCitation = dynamic(() => import("../components/home/Citation"), {
   ssr: false,
 });
+
+type SourceType = "website" | "book" | "article" | "others";
 
 export default function Home({availableStyles}) {
   const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
@@ -19,7 +19,7 @@ export default function Home({availableStyles}) {
 
   const [metadata, setMetaData] = useState(null);
 
-  const handleSourceSelected = (type) => {
+  const handleSourceSelected = (type: SourceType) => {
     setSourceSelected(type);
   };
 

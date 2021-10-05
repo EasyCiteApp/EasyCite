@@ -1,4 +1,4 @@
-import React from 'react'
+import Image from 'next/image'
 
 const Footer = () => {
   return (
@@ -11,7 +11,7 @@ const Footer = () => {
           rel="noopener noreferrer"
         >
           Manual Citation Guideline{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
+          <Image src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
         </a>
       </footer>
     </>
