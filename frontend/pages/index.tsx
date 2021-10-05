@@ -5,14 +5,18 @@ import SourceType from "../components/home/SourceType";
 import SearchBar from "../components/home/SearchBar";
 import dynamic from "next/dynamic";
 import axios from "../components/axios";
-import { toast } from "react-toastify";
-import { CitingSources } from "../components/types/CitingSources";
-import { CitingStyle } from "../components/types/CitingStyle";
 import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
-const DynamicCitation = dynamic(() => import("../components/home/Citation"), {
-  ssr: false,
-});
+import { CitingSource } from "../components/types/CitingSource";
+import { CitingStyle } from "../components/types/CitingStyle";
+
+const DynamicCitation = dynamic(
+  () => import("../components/home/WebsiteCitation"),
+  {
+    ssr: false,
+  }
+);
 
 interface HomeProps {
   availableStyles: CitingStyle[];
@@ -20,12 +24,12 @@ interface HomeProps {
 
 export default function Home({ availableStyles }: HomeProps) {
   // Citation Sources
-  const INIT_SOURCE: CitingSources = "website";
+  const INIT_SOURCE: CitingSource = "website";
 
   const [sourceSelected, setSourceSelected] =
-    useState<CitingSources>(INIT_SOURCE);
+    useState<CitingSource>(INIT_SOURCE);
 
-  const handleSourceSelected = (type: CitingSources) => {
+  const handleSourceSelected = (type: CitingSource) => {
     setSourceSelected(type);
     console.log(type);
   };
@@ -57,6 +61,7 @@ export default function Home({ availableStyles }: HomeProps) {
             url: citeInput,
           });
           const citationMetadata = await response.data.data.metadata;
+          console.log(citationMetadata);
           setMetaData(citationMetadata);
         } catch (err) {
           toast.error(
@@ -104,7 +109,13 @@ export default function Home({ availableStyles }: HomeProps) {
           handleInputChange={handleInputChange}
           handleInputSubmit={handleInputSubmit}
         />
-        {metadata && <DynamicCitation />}
+        {metadata && (
+          <DynamicCitation
+            metadata={metadata}
+            styleSelected={styleSelected}
+            sourceSelected={sourceSelected}
+          />
+        )}
       </main>
     </>
   );
@@ -112,8 +123,7 @@ export default function Home({ availableStyles }: HomeProps) {
 
 Home.getInitialProps = async () => {
   const response = await axios.get("/styles");
-  const availableStyles: CitingStyle[] = await response.data.data
-    .availableStyles;
+  const availableStyles: CitingStyle[] = await response.data.data.availableStyles;
 
   return {
     availableStyles: availableStyles,

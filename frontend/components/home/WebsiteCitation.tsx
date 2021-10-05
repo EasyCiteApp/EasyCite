@@ -2,88 +2,52 @@ import { Fragment, useEffect, useState, useReducer } from "react";
 import Interweave from "interweave";
 import GetAuthor from "../../utils/GetAuthor";
 import axios from "../axios";
+import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import useSWR from "swr";
 
-const citationReducer = (state, action) => {
-  switch (action.type) {
-    case "CITATION_INIT":
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-      };
-    case "CITATION_LOADING":
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    case "CITATION_SUCCESS":
-      return {
-        ...state,
-        data: action.payload,
-        isLoading: false,
-        isError: false,
-      };
-    case "CITATION_FAILURE":
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    default:
-      throw new Error();
-  }
-};
+import { CitingMetaData } from "../types/CitingMetaData";
+import { CitingSource } from "../types/CitingSource";
+import { CitingStyle } from "../types/CitingStyle";
 
-const Citation = ({ metadata, styleSelected, sourceSelected }) => {
-  const [citation, dispatchCitation] = useReducer(citationReducer, {
-    data: "",
-    isLoading: false,
-    isError: false,
-  });
+interface CitationProps {
+  metadata: CitingMetaData;
+  styleSelected: CitingStyle;
+  sourceSelected: CitingSource;
+}
 
-  const handleCitation = () => {
-    dispatchCitation({ type: "CITATION_LOADING" });
-    let authors = GetAuthor(metadata);
+const fetcher = (url: string, citingData: CitingMetaData) =>
+  axios
+    .post(url, citingData)
+    .then((res) => {
+      res.data.data;
+      console.log(res.data.data[0]);
+    })
+    .catch((err) => {
+      toast.error(
+        err.response?.data?.message ?? "Server Error! Please try again later"
+      );
+    });
 
-    let data = {
-      ...metadata,
-      authors: authors,
-      style: styleSelected.citationFile,
-      type: sourceSelected,
-    };
-    console.log(authors);
-    console.log(data);
-    axios
-      .post("/cite", data)
-      .then((res) => {
-        dispatchCitation({
-          type: "CITATION_SUCCESS",
-          payload: res.data.data[0],
-        });
-      })
-      .catch((error) => {
-        dispatchCitation({
-          type: "CITATION_FAILURE",
-        });
-        toast.error(
-          error.response?.data?.message ??
-            "Server Error! Please try again later"
-        );
-      });
+const WebsiteCitation = ({metadata, styleSelected, sourceSelected}: CitationProps) => {
+  let authors = GetAuthor(metadata);
+  let citingData = {
+    ...metadata,
+    authors: authors,
+    style: styleSelected.citationFile,
+    type: sourceSelected,
   };
+  console.log(citingData);
 
-  useEffect(() => {
-    handleCitation();
-  }, []);
+  const { data, error} = useSWR(["/cite", citingData], fetcher);
+  
+  if (!data) {
+    return <div className="mt-10">... Loading Citating</div>;
+  }
 
-  return (
+  return ( 
     <div className="flex flex-col items-center justify-around max-w-4xl mt-10 sm:w-full">
-      <div
-        href="https://nextjs.org/docs"
-        className="p-6 mt-6 text-left border w-full rounded-xl "
-      >
+      <div className="p-6 mt-6 text-left border w-full rounded-xl ">
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold">Citation Preview</h3>
           <span className="flex justify-end">
@@ -124,7 +88,7 @@ const Citation = ({ metadata, styleSelected, sourceSelected }) => {
           </span>
         </div>
         <div className="mt-4 text-base font-light select-all text-black">
-          <Interweave content={citation.data} />
+          <Interweave content={data}/>
         </div>
       </div>
       <div className="mt-6 flex justify-end items-center">
@@ -136,4 +100,4 @@ const Citation = ({ metadata, styleSelected, sourceSelected }) => {
   );
 };
 
-export default Citation;
+export default WebsiteCitation;

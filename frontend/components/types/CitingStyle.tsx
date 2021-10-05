@@ -1,5 +1,5 @@
 export type CitingStyle = {
-  citationName: String,
-  citationShortName: String | null,
-  citationFile: String
+  citationName: string,
+  citationShortName: string | null,
+  citationFile: string
 }
