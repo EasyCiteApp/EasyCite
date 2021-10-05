@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState, useReducer } from "react";
 import Head from "next/head";
-import Image from 'next/image';
+import Image from "next/image";
 import SourceType from "../components/home/SourceType";
 import SearchBar from "../components/home/SearchBar";
 import dynamic from "next/dynamic";
@@ -14,14 +14,18 @@ import { toast } from "react-toastify";
 import { CitingSources } from "../components/types/CitingSources";
 import { CitingStyle } from "../components/types/CitingStyle";
 
-export default function Home() {
-  // const [metadata, setMetaData] = useState(null);
+interface HomeProps {
+  availableStyles: CitingStyle[];
+}
 
+export default function Home({availableStyles}: HomeProps) {
+  // const [metadata, setMetaData] = useState(null);
 
   // Citation Sources
   const INIT_SOURCE: CitingSources = "website";
 
-  const [sourceSelected, setSourceSelected] = useState<CitingSources>(INIT_SOURCE);
+  const [sourceSelected, setSourceSelected] =
+    useState<CitingSources>(INIT_SOURCE);
 
   const handleSourceSelected = (type: CitingSources) => {
     setSourceSelected(type);
@@ -29,29 +33,6 @@ export default function Home() {
   };
 
   // Citation Styles
-  const availableStyles: CitingStyle[] = [
-    {
-        citationName: "American Psychological Association 5th edition",
-        citationShortName: "APA (5th ed.)",
-        citationFile: "apa-5th-edition.csl"
-    },
-    {
-        citationName: "American Psychological Association 6th edition",
-        citationShortName: "APA (6th ed.)",
-        citationFile: "apa-6th-edition.csl"
-    },
-    {
-        citationName: "Cite Them Right 11th edition - Harvard",
-        citationShortName: null,
-        citationFile: "harvard-cite-them-right.csl"
-    },
-    {
-        citationName: "IEEE",
-        citationShortName: null,
-        citationFile: "ieee.csl"
-    }
-];
-
   const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
 
   const handleStyleSelected = (style: CitingStyle) => {
@@ -71,7 +52,7 @@ export default function Home() {
   //   console.log(citeInput);
   //   console.log(sourceSelected);
   //   console.log(styleSelected);
-    
+
   //   switch (sourceSelected) {
   //     case "website":
   //       axios
@@ -110,7 +91,12 @@ export default function Home() {
         <link rel="icon" href="/easycite-logo.png" />
       </Head>
       <main className="flex flex-col items-center min-h-screen w-full flex-1 px-20 text-center">
-        <Image src="/easycite.png" height={253} width={400} alt="Easy Cite Main Logo" />
+        <Image
+          src="/easycite.png"
+          height={253}
+          width={400}
+          alt="Easy Cite Main Logo"
+        />
         <h1 className="text-6xl font-bold">Citations made easy</h1>
         <SourceType
           sourceSelected={sourceSelected}
@@ -129,11 +115,11 @@ export default function Home() {
   );
 }
 
-// Home.getInitialProps = async () => {
-//   const response = await axios.get("/styles");
-//   const availableStyles = await response.data.data.availableStyles;
+Home.getInitialProps = async () => {
+  const response = await axios.get("/styles");
+  const availableStyles: CitingStyle[] = await response.data.data.availableStyles;
 
-//   return {
-//     availableStyles: availableStyles
-//   }
-// }
+  return {
+    availableStyles: availableStyles,
+  };
+};
