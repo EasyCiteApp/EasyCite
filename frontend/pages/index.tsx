@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, useReducer } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import SourceType from "../components/home/SourceType";
@@ -6,21 +6,19 @@ import SearchBar from "../components/home/SearchBar";
 import dynamic from "next/dynamic";
 import axios from "../components/axios";
 import { toast } from "react-toastify";
-
-// const DynamicCitation = dynamic(() => import("../components/home/Citation"), {
-//   ssr: false,
-// });
-
 import { CitingSources } from "../components/types/CitingSources";
 import { CitingStyle } from "../components/types/CitingStyle";
+import { AxiosError } from "axios";
+
+const DynamicCitation = dynamic(() => import("../components/home/Citation"), {
+  ssr: false,
+});
 
 interface HomeProps {
   availableStyles: CitingStyle[];
 }
 
-export default function Home({availableStyles}: HomeProps) {
-  const [metadata, setMetaData] = useState(null);
-
+export default function Home({ availableStyles }: HomeProps) {
   // Citation Sources
   const INIT_SOURCE: CitingSources = "website";
 
@@ -39,38 +37,33 @@ export default function Home({availableStyles}: HomeProps) {
     setStyleSelected(style);
     console.log(style.citationFile);
   };
-  
+
   // Citation Input
   const [citeInput, setCiteInput] = useState("");
+  const [metadata, setMetaData] = useState(null);
 
   const handleInputChange = (input: string) => {
     setCiteInput(input);
     console.log(input);
   };
 
-  const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleInputSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("HANDLE SUBMIT");
-    console.log(citeInput);
-    console.log(sourceSelected);
-    console.log(styleSelected);
 
     switch (sourceSelected) {
       case "website":
-        axios
-          .post(`/sources/${sourceSelected}`, {
+        try {
+          const response = await axios.post(`/sources/${sourceSelected}`, {
             url: citeInput,
-          })
-          .then((res) => {
-            console.log(res);
-            setMetaData(res.data.data.metadata);
-          })
-          .catch((error) => {
-            toast.error(
-              error.response?.data?.message ??
-                "Server Error! Please try again later"
-            );
           });
+          const citationMetadata = await response.data.data.metadata;
+          setMetaData(citationMetadata);
+        } catch (err) {
+          toast.error(
+            (err as AxiosError).response?.data?.message ??
+              "Server Error! Please try again later"
+          );
+        }
         break;
       case "book":
         toast.error("We haven't support book citation yet");
@@ -84,8 +77,6 @@ export default function Home({availableStyles}: HomeProps) {
       default:
         toast.error("Please select a valid citation source");
     }
-
-    console.log(metadata);
   };
 
   return (
@@ -113,7 +104,7 @@ export default function Home({availableStyles}: HomeProps) {
           handleInputChange={handleInputChange}
           handleInputSubmit={handleInputSubmit}
         />
-        {/* {metadata && <DynamicCitation />} */}
+        {metadata && <DynamicCitation />}
       </main>
     </>
   );
@@ -121,7 +112,8 @@ export default function Home({availableStyles}: HomeProps) {
 
 Home.getInitialProps = async () => {
   const response = await axios.get("/styles");
-  const availableStyles: CitingStyle[] = await response.data.data.availableStyles;
+  const availableStyles: CitingStyle[] = await response.data.data
+    .availableStyles;
 
   return {
     availableStyles: availableStyles,
