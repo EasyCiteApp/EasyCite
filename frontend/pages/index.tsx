@@ -39,13 +39,14 @@ export default function Home({availableStyles}: HomeProps) {
     setStyleSelected(style);
     console.log(style.citationFile);
   };
+  
+  // Citation Input
+  const [citeInput, setCiteInput] = useState("");
 
-  // const [citeInput, setCiteInput] = useState("");
-
-  // const handleInputChange = (e) => {
-  //   setCiteInput(e.target.value);
-  //   e.preventDefault();
-  // };
+  const handleInputChange = (input: string) => {
+    setCiteInput(input);
+    console.log(input);
+  };
 
   // const handleInputSubmit = (e) => {
   //   e.preventDefault();
@@ -106,7 +107,7 @@ export default function Home({availableStyles}: HomeProps) {
           citationStyles={availableStyles}
           styleSelected={styleSelected}
           handleStyleSelected={handleStyleSelected}
-          // handleInputChange={handleInputChange}
+          handleInputChange={handleInputChange}
           // handleInputSubmit={handleInputSubmit}
         />
         {/* {metadata && <DynamicCitation />} */}

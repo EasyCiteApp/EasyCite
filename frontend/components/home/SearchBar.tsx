@@ -6,14 +6,15 @@ import { CitingStyle } from "../types/CitingStyle"
 interface SearchBarProps {
   citationStyles: CitingStyle[],
   styleSelected: CitingStyle,
-  handleStyleSelected: (style: CitingStyle) => void
+  handleStyleSelected: (style: CitingStyle) => void,
+  handleInputChange: (input: string) => void
 }
 
 const SearchBar = ({
   citationStyles,
   styleSelected,
   handleStyleSelected,
-  // handleInputChange,
+  handleInputChange,
   // handleInputSubmit,
 }: SearchBarProps) => {
   return (
@@ -32,7 +33,7 @@ const SearchBar = ({
           name="search"
           className="h-full w-full px-2 bg-white  border-none focus:ring-0 focus:outline-none "
           placeholder="Search for anything"
-          // onChange={handleInputChange}
+          onChange={(e) => handleInputChange(e.target.value)}
         />
         <button>
           <svg
