@@ -19,7 +19,7 @@ interface HomeProps {
 }
 
 export default function Home({availableStyles}: HomeProps) {
-  // const [metadata, setMetaData] = useState(null);
+  const [metadata, setMetaData] = useState(null);
 
   // Citation Sources
   const INIT_SOURCE: CitingSources = "website";
@@ -48,42 +48,45 @@ export default function Home({availableStyles}: HomeProps) {
     console.log(input);
   };
 
-  // const handleInputSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log(citeInput);
-  //   console.log(sourceSelected);
-  //   console.log(styleSelected);
+  const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("HANDLE SUBMIT");
+    console.log(citeInput);
+    console.log(sourceSelected);
+    console.log(styleSelected);
 
-  //   switch (sourceSelected) {
-  //     case "website":
-  //       axios
-  //         .post(`/sources/${sourceSelected}`, {
-  //           url: citeInput,
-  //         })
-  //         .then((res) => {
-  //           console.log(res);
-  //           setMetaData(res.data.data.metadata);
-  //         })
-  //         .catch((error) => {
-  //           toast.error(
-  //             error.response?.data?.message ??
-  //               "Server Error! Please try again later"
-  //           );
-  //         });
-  //       break;
-  //     case "book":
-  //       toast.error("We haven't support book citation yet");
-  //       break;
-  //     case "article":
-  //       toast.error("We haven't support article citation yet");
-  //       break;
-  //     case "others":
-  //       toast.error("We haven't support other citation yet");
-  //       break;
-  //     default:
-  //       toast.error("Please select a valid citation source");
-  //   }
-  // };
+    switch (sourceSelected) {
+      case "website":
+        axios
+          .post(`/sources/${sourceSelected}`, {
+            url: citeInput,
+          })
+          .then((res) => {
+            console.log(res);
+            setMetaData(res.data.data.metadata);
+          })
+          .catch((error) => {
+            toast.error(
+              error.response?.data?.message ??
+                "Server Error! Please try again later"
+            );
+          });
+        break;
+      case "book":
+        toast.error("We haven't support book citation yet");
+        break;
+      case "article":
+        toast.error("We haven't support article citation yet");
+        break;
+      case "others":
+        toast.error("We haven't support other citation yet");
+        break;
+      default:
+        toast.error("Please select a valid citation source");
+    }
+
+    console.log(metadata);
+  };
 
   return (
     <>
@@ -108,7 +111,7 @@ export default function Home({availableStyles}: HomeProps) {
           styleSelected={styleSelected}
           handleStyleSelected={handleStyleSelected}
           handleInputChange={handleInputChange}
-          // handleInputSubmit={handleInputSubmit}
+          handleInputSubmit={handleInputSubmit}
         />
         {/* {metadata && <DynamicCitation />} */}
       </main>
