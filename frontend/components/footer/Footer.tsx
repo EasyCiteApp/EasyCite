@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -10,12 +10,12 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Manual Citation Guideline{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
+          <span className="mr-2"> Manual Citation Guideline </span>
+          <Image src="/vercel.svg" height={14} width={60} alt="Vercel Logo" />
         </a>
       </footer>
     </>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

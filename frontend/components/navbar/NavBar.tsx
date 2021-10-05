@@ -5,10 +5,10 @@ const NavBar = () => {
   return (
     <>
       <div className="fixed w-full h-14 z-40 top-0 bg-white">
-        <div className="w-full h-14 flex justify-between items-center py-3">
+        <div className="w-full h-14 flex justify-between items-center px-10 py-8">
           <Link href="/" passHref>
             <div className="flex h-full justify-center items-center cursor-pointer">
-              <Image src="/easycite-logo.png" alt="Logo" className="h-full " />
+              <Image src="/easycite-logo.png" height={28} width={30} alt="Logo" className="h-full" />
               <span className="ml-2 text-xl font-semibold cursor-pointer">
                 Easy Cite
               </span>
