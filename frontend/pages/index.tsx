@@ -16,7 +16,7 @@ import { CitingSources } from "../components/types/CitingSources";
 export default function Home() {
   // const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
   
-  // const [citeInput, setCiteInput] = useState("");
+  
 
   // const [metadata, setMetaData] = useState(null);
 
@@ -33,6 +33,8 @@ export default function Home() {
   //   setStyleSelected(style);
   //   console.log(style.citationFile);
   // };
+
+  // const [citeInput, setCiteInput] = useState("");
 
   // const handleInputChange = (e) => {
   //   setCiteInput(e.target.value);
@@ -89,13 +91,13 @@ export default function Home() {
           sourceSelected={sourceSelected}
           handleSourceSelected={handleSourceSelected}
         />
-        {/* <SearchBar
-          citationStyles={availableStyles}
-          styleSelected={styleSelected}
-          handleStyleSelected={handleStyleSelected}
-          handleInputChange={handleInputChange}
-          handleInputSubmit={handleInputSubmit}
-        /> */}
+        <SearchBar
+          // citationStyles={availableStyles}
+          // styleSelected={styleSelected}
+          // handleStyleSelected={handleStyleSelected}
+          // handleInputChange={handleInputChange}
+          // handleInputSubmit={handleInputSubmit}
+        />
         {/* {metadata && <DynamicCitation />} */}
       </main>
     </>

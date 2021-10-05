@@ -1,6 +1,12 @@
 import React from "react";
 import CitationStyle from "./CitationStyle";
 
+interface SearchBarProps {
+  citationStyles: CitingStyle[],
+  styleSelected: CitingStyle,
+  handleStyleSelected: (style: CitingStyle) => void
+}
+
 const SearchBar = ({
   citationStyles,
   styleSelected,
