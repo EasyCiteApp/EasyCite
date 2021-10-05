@@ -12,14 +12,13 @@ import { toast } from "react-toastify";
 // });
 
 import { CitingSources } from "../components/types/CitingSources";
+import { CitingStyle } from "../components/types/CitingStyle";
 
 export default function Home() {
-  // const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
-  
-  
-
   // const [metadata, setMetaData] = useState(null);
 
+
+  // Citation Sources
   const INIT_SOURCE: CitingSources = "website";
 
   const [sourceSelected, setSourceSelected] = useState<CitingSources>(INIT_SOURCE);
@@ -29,10 +28,36 @@ export default function Home() {
     console.log(type);
   };
 
-  // const handleStyleSelected = (style) => {
-  //   setStyleSelected(style);
-  //   console.log(style.citationFile);
-  // };
+  // Citation Styles
+  const availableStyles: CitingStyle[] = [
+    {
+        citationName: "American Psychological Association 5th edition",
+        citationShortName: "APA (5th ed.)",
+        citationFile: "apa-5th-edition.csl"
+    },
+    {
+        citationName: "American Psychological Association 6th edition",
+        citationShortName: "APA (6th ed.)",
+        citationFile: "apa-6th-edition.csl"
+    },
+    {
+        citationName: "Cite Them Right 11th edition - Harvard",
+        citationShortName: null,
+        citationFile: "harvard-cite-them-right.csl"
+    },
+    {
+        citationName: "IEEE",
+        citationShortName: null,
+        citationFile: "ieee.csl"
+    }
+];
+
+  const [styleSelected, setStyleSelected] = useState(availableStyles[0]);
+
+  const handleStyleSelected = (style: CitingStyle) => {
+    setStyleSelected(style);
+    console.log(style.citationFile);
+  };
 
   // const [citeInput, setCiteInput] = useState("");
 
@@ -92,9 +117,9 @@ export default function Home() {
           handleSourceSelected={handleSourceSelected}
         />
         <SearchBar
-          // citationStyles={availableStyles}
-          // styleSelected={styleSelected}
-          // handleStyleSelected={handleStyleSelected}
+          citationStyles={availableStyles}
+          styleSelected={styleSelected}
+          handleStyleSelected={handleStyleSelected}
           // handleInputChange={handleInputChange}
           // handleInputSubmit={handleInputSubmit}
         />

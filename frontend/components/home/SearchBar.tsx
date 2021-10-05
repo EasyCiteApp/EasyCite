@@ -1,6 +1,8 @@
 import React from "react";
 import CitationStyle from "./CitationStyle";
 
+import { CitingStyle } from "../types/CitingStyle"
+
 interface SearchBarProps {
   citationStyles: CitingStyle[],
   styleSelected: CitingStyle,
@@ -11,13 +13,13 @@ const SearchBar = ({
   citationStyles,
   styleSelected,
   handleStyleSelected,
-  handleInputChange,
-  handleInputSubmit,
-}) => {
+  // handleInputChange,
+  // handleInputSubmit,
+}: SearchBarProps) => {
   return (
     <div className=" bg-white h-14 w-full md:full lg:w-4/6 rounded-full border border-gray-600 mt-10 px-4 py-2  text-gray-600 focus-within:text-gray-600 justify-center items-center">
       <form
-        onSubmit={handleInputSubmit}
+        // onSubmit={handleInputSubmit}
         className="flex h-full w-full justify-center items-center focus:ring-0"
       >
         <CitationStyle
@@ -30,9 +32,9 @@ const SearchBar = ({
           name="search"
           className="h-full w-full px-2 bg-white  border-none focus:ring-0 focus:outline-none "
           placeholder="Search for anything"
-          onChange={handleInputChange}
+          // onChange={handleInputChange}
         />
-        <button onClick={handleInputSubmit}>
+        <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 ml-2 hover:text-purple-600"

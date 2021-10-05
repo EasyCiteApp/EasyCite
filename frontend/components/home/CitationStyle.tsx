@@ -14,8 +14,10 @@ const CitationStyle = ({ citationStyles, styleSelected, handleStyleSelected }: C
       <Listbox
         as="div"
         className="space-y-1 w-48"
-        value={styleSelected.citationName}
-        onChange={() => {handleStyleSelected(styleSelected)}}
+        value={styleSelected}
+        onChange={(style: CitingStyle) => {
+          handleStyleSelected(style)
+        }}
       >
         {({ open }) => (
           <>
