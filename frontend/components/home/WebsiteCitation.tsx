@@ -2,32 +2,19 @@ import { Fragment, useEffect, useState, useReducer } from "react";
 import Interweave from "interweave";
 import GetAuthor from "../../utils/GetAuthor";
 import axios from "../axios";
-import { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import useSWR from "swr";
 
 import { CitingMetaData } from "../types/CitingMetaData";
 import { CitingSource } from "../types/CitingSource";
 import { CitingStyle } from "../types/CitingStyle";
+
+import useRequest from '../libs/useRequest';
 
 interface CitationProps {
   metadata: CitingMetaData;
   styleSelected: CitingStyle;
   sourceSelected: CitingSource;
 }
-
-const fetcher = (url: string, citingData: CitingMetaData) =>
-  axios
-    .post(url, citingData)
-    .then((res) => {
-      res.data.data;
-      console.log(res.data.data[0]);
-    })
-    .catch((err) => {
-      toast.error(
-        err.response?.data?.message ?? "Server Error! Please try again later"
-      );
-    });
 
 const WebsiteCitation = ({metadata, styleSelected, sourceSelected}: CitationProps) => {
   let authors = GetAuthor(metadata);
@@ -39,7 +26,15 @@ const WebsiteCitation = ({metadata, styleSelected, sourceSelected}: CitationProp
   };
   console.log(citingData);
 
-  const { data, error} = useSWR(["/cite", citingData], fetcher);
+  
+  const { data, error } = useRequest<{
+    status: string,
+    data: string[]
+  }>({
+    method: 'post',
+    url: '/cite',
+    data: citingData
+  })
   
   if (!data) {
     return <div className="mt-10">... Loading Citating</div>;
@@ -88,7 +83,7 @@ const WebsiteCitation = ({metadata, styleSelected, sourceSelected}: CitationProp
           </span>
         </div>
         <div className="mt-4 text-base font-light select-all text-black">
-          <Interweave content={data}/>
+          <Interweave content={data.data[0]}/>
         </div>
       </div>
       <div className="mt-6 flex justify-end items-center">
