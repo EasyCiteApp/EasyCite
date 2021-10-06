@@ -19,7 +19,7 @@ const SearchBar = ({
   handleInputSubmit,
 }: SearchBarProps) => {
   return (
-    <div className=" bg-white h-14 w-full md:full lg:w-4/6 rounded-full border border-gray-600 mt-10 px-4 py-2  text-gray-600 focus-within:text-gray-600 justify-center items-center">
+    <div className=" bg-white h-14 max-w-4xl sm:w-full rounded-full border border-gray-600 mt-10 px-4 py-2  text-gray-600 focus-within:text-gray-600 justify-center items-center">
       <form
         onSubmit={(e) => handleInputSubmit(e)}
         className="flex h-full w-full justify-center items-center focus:ring-0"

@@ -8,7 +8,8 @@ import { CitingMetaData } from "../types/CitingMetaData";
 import { CitingSource } from "../types/CitingSource";
 import { CitingStyle } from "../types/CitingStyle";
 
-import useRequest from '../libs/useRequest';
+import useRequest from "../libs/useRequest";
+import SkeletonCard from "../layout/SkeletonCard";
 
 interface CitationProps {
   metadata: CitingMetaData;
@@ -16,7 +17,11 @@ interface CitationProps {
   sourceSelected: CitingSource;
 }
 
-const WebsiteCitation = ({metadata, styleSelected, sourceSelected}: CitationProps) => {
+const WebsiteCitation = ({
+  metadata,
+  styleSelected,
+  sourceSelected,
+}: CitationProps) => {
   let authors = GetAuthor(metadata);
   let citingData = {
     ...metadata,
@@ -26,21 +31,22 @@ const WebsiteCitation = ({metadata, styleSelected, sourceSelected}: CitationProp
   };
   console.log(citingData);
 
-  
   const { data, error } = useRequest<{
-    status: string,
-    data: string[]
+    status: string;
+    data: string[];
   }>({
-    method: 'post',
-    url: '/cite',
-    data: citingData
-  })
-  
+    method: "post",
+    url: "/cite",
+    data: citingData,
+  });
+
   if (!data) {
-    return <div className="mt-10">... Loading Citating</div>;
+    return (
+      <SkeletonCard/>
+    );
   }
 
-  return ( 
+  return (
     <div className="flex flex-col items-center justify-around max-w-4xl mt-10 sm:w-full">
       <div className="p-6 mt-6 text-left border w-full rounded-xl ">
         <div className="flex justify-between items-center">
@@ -83,7 +89,7 @@ const WebsiteCitation = ({metadata, styleSelected, sourceSelected}: CitationProp
           </span>
         </div>
         <div className="mt-4 text-base font-light select-all text-black">
-          <Interweave content={data.data[0]}/>
+          <Interweave content={data.data[0]} />
         </div>
       </div>
       <div className="mt-6 flex justify-end items-center">
