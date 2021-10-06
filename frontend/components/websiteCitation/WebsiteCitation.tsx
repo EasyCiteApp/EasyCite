@@ -10,6 +10,7 @@ import { CitingStyle } from "../types/CitingStyle";
 
 import useRequest from "../libs/useRequest";
 import SkeletonCard from "../layout/SkeletonCard";
+import ManualCitingModal from "./ManualCitingModal";
 
 interface CitationProps {
   metadata: CitingMetaData;
@@ -52,7 +53,7 @@ const WebsiteCitation = ({
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold">Citation Preview</h3>
           <span className="flex justify-end">
-            <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm mr-2">
+            {/* <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm mr-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 mr-1"
@@ -68,7 +69,8 @@ const WebsiteCitation = ({
                 />
               </svg>
               Edit
-            </button>
+            </button> */}
+            <ManualCitingModal/>
             <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

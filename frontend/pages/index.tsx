@@ -11,8 +11,8 @@ import { toast } from "react-toastify";
 import { CitingSource } from "../components/types/CitingSource";
 import { CitingStyle } from "../components/types/CitingStyle";
 
-const DynamicCitation = dynamic(
-  () => import("../components/home/WebsiteCitation"),
+const DynamicWebsiteCitation = dynamic(
+  () => import("../components/websiteCitation/WebsiteCitation"),
   {
     ssr: false,
   }
@@ -110,7 +110,7 @@ export default function Home({ availableStyles }: HomeProps) {
           handleInputSubmit={handleInputSubmit}
         />
         {metadata && (
-          <DynamicCitation
+          <DynamicWebsiteCitation
             metadata={metadata}
             styleSelected={styleSelected}
             sourceSelected={sourceSelected}
