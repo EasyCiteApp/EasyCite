@@ -1,0 +1,1 @@
+export type CitingSource = "website" | "book" | "article" | "others";

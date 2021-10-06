@@ -4,86 +4,51 @@ import GetAuthor from "../../utils/GetAuthor";
 import axios from "../axios";
 import { toast } from "react-toastify";
 
-const citationReducer = (state, action) => {
-  switch (action.type) {
-    case "CITATION_INIT":
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-      };
-    case "CITATION_LOADING":
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    case "CITATION_SUCCESS":
-      return {
-        ...state,
-        data: action.payload,
-        isLoading: false,
-        isError: false,
-      };
-    case "CITATION_FAILURE":
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    default:
-      throw new Error();
-  }
-};
+import { CitingMetaData } from "../types/CitingMetaData";
+import { CitingSource } from "../types/CitingSource";
+import { CitingStyle } from "../types/CitingStyle";
 
-const Citation = ({ metadata, styleSelected, sourceSelected }) => {
-  const [citation, dispatchCitation] = useReducer(citationReducer, {
-    data: "",
-    isLoading: false,
-    isError: false,
+import useRequest from "../libs/useRequest";
+import SkeletonCard from "../layout/SkeletonCard";
+
+interface CitationProps {
+  metadata: CitingMetaData;
+  styleSelected: CitingStyle;
+  sourceSelected: CitingSource;
+}
+
+const WebsiteCitation = ({
+  metadata,
+  styleSelected,
+  sourceSelected,
+}: CitationProps) => {
+  let authors = GetAuthor(metadata);
+  let citingData = {
+    ...metadata,
+    authors: authors,
+    style: styleSelected.citationFile,
+    type: sourceSelected,
+  };
+  console.log(citingData);
+
+  const { data, error } = useRequest<{
+    status: string;
+    data: string[];
+  }>({
+    method: "post",
+    url: "/cite",
+    data: citingData,
   });
 
-  const handleCitation = () => {
-    dispatchCitation({ type: "CITATION_LOADING" });
-    let authors = GetAuthor(metadata);
-
-    let data = {
-      ...metadata,
-      authors: authors,
-      style: styleSelected.citationFile,
-      type: sourceSelected,
-    };
-    console.log(authors);
-    console.log(data);
-    axios
-      .post("/cite", data)
-      .then((res) => {
-        dispatchCitation({
-          type: "CITATION_SUCCESS",
-          payload: res.data.data[0],
-        });
-      })
-      .catch((error) => {
-        dispatchCitation({
-          type: "CITATION_FAILURE",
-        });
-        toast.error(
-          error.response?.data?.message ??
-            "Server Error! Please try again later"
-        );
-      });
-  };
-
-  useEffect(() => {
-    handleCitation();
-  }, []);
+  if (!data) {
+    return (
+      <SkeletonCard/>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-around max-w-4xl mt-10 sm:w-full">
-      <div
-        href="https://nextjs.org/docs"
-        className="p-6 mt-6 text-left border w-full rounded-xl "
-      >
+      <div className="p-6 mt-6 text-left border w-full rounded-xl ">
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold">Citation Preview</h3>
           <span className="flex justify-end">
@@ -124,7 +89,7 @@ const Citation = ({ metadata, styleSelected, sourceSelected }) => {
           </span>
         </div>
         <div className="mt-4 text-base font-light select-all text-black">
-          <Interweave content={citation.data} />
+          <Interweave content={data.data[0]} />
         </div>
       </div>
       <div className="mt-6 flex justify-end items-center">
@@ -136,4 +101,4 @@ const Citation = ({ metadata, styleSelected, sourceSelected }) => {
   );
 };
 
-export default Citation;
+export default WebsiteCitation;

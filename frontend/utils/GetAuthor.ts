@@ -1,6 +1,7 @@
 import HumanParser from "./HumanParser";
+import { CitingMetaData } from "../components/types/CitingMetaData";
 
-export default function GetAuthor(metadata) {
+export default function GetAuthor(metadata: CitingMetaData) {
   let authorsInfo = metadata.authors;
   let authors = [];
 
@@ -13,7 +14,7 @@ export default function GetAuthor(metadata) {
   } 
 
   if (authorsInfo) {
-    authorsInfo.forEach((info) => {
+    authorsInfo.forEach((info: string) => {
       let author = HumanParser(info);
       authors.push(author);
     });

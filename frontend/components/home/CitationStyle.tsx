@@ -1,14 +1,23 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { CitingStyle } from "../types/CitingStyle";
 
-const CitationStyle = ({ citationStyles, styleSelected, handleStyleSelected }) => {
+interface CitationStyleProps {
+  citationStyles: CitingStyle[],
+  styleSelected: CitingStyle,
+  handleStyleSelected: (style: CitingStyle) => void
+}
+
+const CitationStyle = ({ citationStyles, styleSelected, handleStyleSelected }: CitationStyleProps) => {
   return (
     <Fragment>
       <Listbox
         as="div"
         className="space-y-1 w-48"
-        value={styleSelected.citationName}
-        onChange={handleStyleSelected}
+        value={styleSelected}
+        onChange={(style: CitingStyle) => {
+          handleStyleSelected(style)
+        }}
       >
         {({ open }) => (
           <>

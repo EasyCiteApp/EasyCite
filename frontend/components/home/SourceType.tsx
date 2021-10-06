@@ -1,7 +1,13 @@
 import React from "react";
+import  { CitingSource } from "../types/CitingSource"; 
 
-const SourceType = ({sourceSelected, handleSourceSelected}) => {
-  const sourceTypes = ["website", "book", "article", "others"];
+interface SourceTypeProps {
+  sourceSelected: CitingSource,
+  handleSourceSelected: (source: CitingSource) => void
+}
+
+const SourceType = ({sourceSelected, handleSourceSelected}: SourceTypeProps) => {
+  const sourceTypes: CitingSource[] = ["website", "book", "article", "others"]
   return (
     <div className="mt-10 justify-self-center">
       <div className="flex text-gray-700">
