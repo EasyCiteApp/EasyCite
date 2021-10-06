@@ -31,7 +31,6 @@ export default function Home({ availableStyles }: HomeProps) {
 
   const handleSourceSelected = (type: CitingSource) => {
     setSourceSelected(type);
-    console.log(type);
   };
 
   // Citation Styles
@@ -39,7 +38,6 @@ export default function Home({ availableStyles }: HomeProps) {
 
   const handleStyleSelected = (style: CitingStyle) => {
     setStyleSelected(style);
-    console.log(style.citationFile);
   };
 
   // Citation Input
@@ -48,7 +46,6 @@ export default function Home({ availableStyles }: HomeProps) {
 
   const handleInputChange = (input: string) => {
     setCiteInput(input);
-    console.log(input);
   };
 
   const handleInputSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

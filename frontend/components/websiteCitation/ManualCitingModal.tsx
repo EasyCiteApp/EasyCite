@@ -1,5 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { XIcon } from "@heroicons/react/outline";
+import ManualMetadata from "./ManualMetadata";
 
 export default function ManualCitingModal() {
   const [open, setOpen] = useState(false);
@@ -30,13 +32,16 @@ export default function ManualCitingModal() {
         </button>
       </div>
 
-      <Transition appear show={open} as={Fragment}>
+      <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={() => setOpen(false)}
+          className="fixed z-20 inset-0 overflow-y-auto"
+          onClose={setOpen}
         >
-          <div className="min-h-screen px-4 text-center">
+          <div
+            className="flex min-h-screen text-center md:block md:px-2 lg:px-4"
+            style={{ fontSize: 0 }}
+          >
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -46,12 +51,12 @@ export default function ManualCitingModal() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0" />
+              <Dialog.Overlay className="hidden fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity md:block" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
             <span
-              className="inline-block h-screen align-middle"
+              className="hidden md:inline-block md:align-middle md:h-screen"
               aria-hidden="true"
             >
               &#8203;
@@ -59,40 +64,47 @@ export default function ManualCitingModal() {
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
+              enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+              enterTo="opacity-100 translate-y-0 md:scale-100"
               leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
+              leaveFrom="opacity-100 translate-y-0 md:scale-100"
+              leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
-                  Payment successful
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
-                </div>
-
-                <div className="mt-4">
+              <div className="flex text-base text-left transform transition w-full md:inline-block md:max-w-2xl md:px-4 md:my-8 md:align-middle lg:max-w-4xl">
+                <div className="w-full relative flex flex-col bg-white px-8 pt-14 pb-8 overflow-hidden shadow-2xl sm:px-6 sm:pt-8 md:p-10 lg:p-12">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-2xl font-medium leading-6 text-gray-900 mt-2 text-left"
+                  >
+                    Manual Citation
+                  </Dialog.Title>
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
                     onClick={() => setOpen(false)}
                   >
-                    Got it, thanks!
+                    <span className="sr-only">Close</span>
+                    <XIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
+                  <div className="mt-2">
+                    <ManualMetadata />
+                  </div>
+
+                  <div className="flex flex-row items-center justify-center mt-8">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md hover:bg-purple-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 uppercase"
+                      onClick={() => setOpen(false)}
+                    >
+                      Manual Cite
+                    </button>
+                  </div>
                 </div>
               </div>
             </Transition.Child>
           </div>
         </Dialog>
-      </Transition>
+      </Transition.Root>
     </>
   );
 }
