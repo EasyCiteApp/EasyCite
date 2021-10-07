@@ -2,8 +2,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { XIcon } from "@heroicons/react/outline";
 import ManualMetadata from "./ManualMetadata";
+import { CitingMetaData } from "../types/CitingMetaData";
 
-export default function ManualCitingModal() {
+interface ManualCitingModalProps {
+  metadata: CitingMetaData
+}
+
+export default function ManualCitingModal({metadata}: ManualCitingModalProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -74,7 +79,7 @@ export default function ManualCitingModal() {
                 <div className="w-full relative flex flex-col bg-white px-8 pt-14 pb-8 overflow-hidden shadow-2xl sm:px-6 sm:pt-8 md:p-10 lg:p-12">
                   <Dialog.Title
                     as="h3"
-                    className="text-2xl font-medium leading-6 text-gray-900 mt-2 text-left"
+                    className="text-3xl font-medium leading-6 text-gray-900 mt-2 text-center"
                   >
                     Manual Citation
                   </Dialog.Title>
@@ -87,10 +92,10 @@ export default function ManualCitingModal() {
                     <XIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                   <div className="mt-2">
-                    <ManualMetadata />
+                    <ManualMetadata metadata={metadata}/>
                   </div>
 
-                  <div className="flex flex-row items-center justify-start mt-8">
+                  <div className="flex flex-row items-center justify-end mt-8">
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md hover:bg-purple-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 uppercase"

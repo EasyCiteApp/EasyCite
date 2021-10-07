@@ -1,8 +1,6 @@
 import { Fragment, useEffect, useState, useReducer } from "react";
 import Interweave from "interweave";
 import GetAuthor from "../../utils/GetAuthor";
-import axios from "../axios";
-import { toast } from "react-toastify";
 
 import { CitingMetaData } from "../types/CitingMetaData";
 import { CitingSource } from "../types/CitingSource";
@@ -52,7 +50,7 @@ const WebsiteCitation = ({
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold">Citation Preview</h3>
           <span className="flex justify-end">
-            <ManualCitingModal/>
+            <ManualCitingModal metadata={metadata} />
             <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
