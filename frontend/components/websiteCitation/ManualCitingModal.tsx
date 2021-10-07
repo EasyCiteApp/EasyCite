@@ -95,7 +95,7 @@ export default function ManualCitingModal({metadata}: ManualCitingModalProps) {
                     <ManualMetadata metadata={metadata}/>
                   </div>
 
-                  <div className="flex flex-row items-center justify-end mt-8">
+                  <div className="flex flex-row items-center justify-center mt-10">
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md hover:bg-purple-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 uppercase"

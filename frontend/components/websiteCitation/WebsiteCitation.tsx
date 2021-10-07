@@ -21,6 +21,7 @@ const WebsiteCitation = ({
   styleSelected,
   sourceSelected,
 }: CitationProps) => {
+  console.log(metadata);
   let authors = GetAuthor(metadata);
   let citingData = {
     ...metadata,

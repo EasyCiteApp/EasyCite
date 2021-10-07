@@ -9,7 +9,7 @@ const ManualMetadata = ({metadata}: ManualMetadataProps) => {
   const [authors, setAuthors] = useState<string[]>([]);
   const [author1, setAuthor1] = useState<string>(metadata.authors?.length == 1 ? metadata.authors[0] : "");
   const [author2, setAuthor2] = useState<string>(metadata.authors?.length == 2 ? metadata.authors[1] : "");
-  const [date, setDate] = useState<string>("");
+  const [date, setDate] = useState<string>(metadata.date);
   const [title, setTitle] = useState<string>(metadata.title ? metadata.title : "");
   const [publisher, setPublisher] = useState<string>(metadata.publisher ? metadata.publisher  : "");
   const [url, setUrl] = useState<string>(metadata.url ? metadata.url : "");
@@ -43,33 +43,14 @@ const ManualMetadata = ({metadata}: ManualMetadataProps) => {
               className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             />
           </div>
-          {/* <div className="col-span-6 sm:col-span-2 self-center">
-            <h1>Author #2</h1>
-          </div>
-          <div className="col-span-6 sm:col-span-3">
-            <label className="block text-sm font-medium text-gray-700">
-              First name
-            </label>
-            <input
-              type="text"
-              className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="col-span-6 sm:col-span-3">
-            <label className="block text-sm font-medium text-gray-700">
-              Last name
-            </label>
-            <input
-              type="text"
-              className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-          </div> */}
           <div className="col-span-6 sm:col-span-2 self-center">
             <h1>Published Date</h1>
           </div>
           <div className="col-span-6 sm:col-span-6">
             <input
               type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
               className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             />
           </div>
