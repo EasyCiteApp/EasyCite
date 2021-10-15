@@ -10,9 +10,10 @@ import { toast } from "react-toastify";
 
 import { CitingSource } from "../components/types/CitingSource";
 import { CitingStyle } from "../components/types/CitingStyle";
+import { CitingMetaData } from "../components/types/CitingMetaData";
 
-const DynamicCitation = dynamic(
-  () => import("../components/home/WebsiteCitation"),
+const DynamicWebsiteCitation = dynamic(
+  () => import("../components/websiteCitation/WebsiteCitation"),
   {
     ssr: false,
   }
@@ -31,7 +32,6 @@ export default function Home({ availableStyles }: HomeProps) {
 
   const handleSourceSelected = (type: CitingSource) => {
     setSourceSelected(type);
-    console.log(type);
   };
 
   // Citation Styles
@@ -39,17 +39,21 @@ export default function Home({ availableStyles }: HomeProps) {
 
   const handleStyleSelected = (style: CitingStyle) => {
     setStyleSelected(style);
-    console.log(style.citationFile);
   };
 
   // Citation Input
   const [citeInput, setCiteInput] = useState("");
-  const [metadata, setMetaData] = useState(null);
+  const [metadata, setMetaData] = useState<CitingMetaData>();
 
   const handleInputChange = (input: string) => {
     setCiteInput(input);
-    console.log(input);
   };
+
+  const handleManualCite = (manualCitingData: CitingMetaData) => {
+    console.log("Handle Manual Cite from Index page");
+    console.log(manualCitingData);
+    setMetaData(manualCitingData);
+  }
 
   const handleInputSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,7 +65,6 @@ export default function Home({ availableStyles }: HomeProps) {
             url: citeInput,
           });
           const citationMetadata = await response.data.data.metadata;
-          console.log(citationMetadata);
           setMetaData(citationMetadata);
         } catch (err) {
           toast.error(
@@ -110,8 +113,9 @@ export default function Home({ availableStyles }: HomeProps) {
           handleInputSubmit={handleInputSubmit}
         />
         {metadata && (
-          <DynamicCitation
+          <DynamicWebsiteCitation
             metadata={metadata}
+            handleManualCite={handleManualCite}
             styleSelected={styleSelected}
             sourceSelected={sourceSelected}
           />

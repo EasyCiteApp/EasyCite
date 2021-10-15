@@ -1,8 +1,6 @@
 import { Fragment, useEffect, useState, useReducer } from "react";
 import Interweave from "interweave";
 import GetAuthor from "../../utils/GetAuthor";
-import axios from "../axios";
-import { toast } from "react-toastify";
 
 import { CitingMetaData } from "../types/CitingMetaData";
 import { CitingSource } from "../types/CitingSource";
@@ -10,17 +8,20 @@ import { CitingStyle } from "../types/CitingStyle";
 
 import useRequest from "../libs/useRequest";
 import SkeletonCard from "../layout/SkeletonCard";
+import ManualCitingModal from "./ManualCitingModal";
 
 interface CitationProps {
   metadata: CitingMetaData;
   styleSelected: CitingStyle;
   sourceSelected: CitingSource;
+  handleManualCite: (metadata: CitingMetaData) => void
 }
 
 const WebsiteCitation = ({
   metadata,
   styleSelected,
   sourceSelected,
+  handleManualCite
 }: CitationProps) => {
   let authors = GetAuthor(metadata);
   let citingData = {
@@ -29,7 +30,6 @@ const WebsiteCitation = ({
     style: styleSelected.citationFile,
     type: sourceSelected,
   };
-  console.log(citingData);
 
   const { data, error } = useRequest<{
     status: string;
@@ -52,23 +52,7 @@ const WebsiteCitation = ({
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold">Citation Preview</h3>
           <span className="flex justify-end">
-            <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm mr-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-              Edit
-            </button>
+            <ManualCitingModal metadata={metadata} handleManualCite={handleManualCite}/>
             <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +77,7 @@ const WebsiteCitation = ({
         </div>
       </div>
       <div className="mt-6 flex justify-end items-center">
-        <button className="cursor-pointer bg-black text-gray-50 hover:text-white hover:bg-purple-700 py-2 px-3 rounded-md uppercase">
+        <button className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md hover:bg-purple-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 uppercase">
           Add to reference list
         </button>
       </div>
