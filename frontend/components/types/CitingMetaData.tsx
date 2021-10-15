@@ -9,6 +9,7 @@ export type CitingMetaData = {
   title: string;
   url: string;
   thumbnail: string;
+  "container-title": string;
   URL: string;
   authors: string[] | null;
   style: CitingStyle | null,

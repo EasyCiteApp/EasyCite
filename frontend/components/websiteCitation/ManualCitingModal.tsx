@@ -1,15 +1,48 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { XIcon } from "@heroicons/react/outline";
-import ManualMetadata from "./ManualMetadata";
 import { CitingMetaData } from "../types/CitingMetaData";
 
 interface ManualCitingModalProps {
-  metadata: CitingMetaData
+  metadata: CitingMetaData;
+  handleManualCite: (metadata: CitingMetaData) => void;
 }
 
-export default function ManualCitingModal({metadata}: ManualCitingModalProps) {
+export default function ManualCitingModal({
+  metadata,
+  handleManualCite,
+}: ManualCitingModalProps) {
   const [open, setOpen] = useState(false);
+  const [authors, setAuthors] = useState<string[]>([""]);
+  const [author1, setAuthor1] = useState<string>(
+    metadata.authors?.length == 1 ? metadata.authors[0] : ""
+  );
+  const [author2, setAuthor2] = useState<string>(
+    metadata.authors?.length == 2 ? metadata.authors[1] : ""
+  );
+  const [date, setDate] = useState<string>(metadata.date);
+  const [title, setTitle] = useState<string>(
+    metadata.title ? metadata.title : ""
+  );
+  const [publisher, setPublisher] = useState<string>(
+    metadata.publisher ? metadata.publisher : ""
+  );
+  const [url, setUrl] = useState<string>(metadata.url ? metadata.url : "");
+
+  const citeButtonClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
+    let manualCitingData = {
+      ...metadata,
+      authors: [author1, author2],
+      date: date,
+      title: title,
+      publisher: publisher,
+      url: url
+    };
+    // console.log(manualCitingData);
+    handleManualCite(manualCitingData);
+    setOpen(false);
+    e.preventDefault();
+  };
 
   return (
     <>
@@ -92,14 +125,102 @@ export default function ManualCitingModal({metadata}: ManualCitingModalProps) {
                     <XIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                   <div className="mt-2">
-                    <ManualMetadata metadata={metadata}/>
+                    <form className="mt-10">
+                      <div className="grid grid-cols-8 gap-4">
+                        <div className="col-span-6 sm:col-span-2 self-center">
+                          <h1>Author </h1>
+                        </div>
+                        <div className="col-span-6 sm:col-span-3">
+                          <label className="block text-sm font-medium text-gray-700">
+                            Author 1
+                          </label>
+                          <input
+                            type="text"
+                            value={author1}
+                            onChange={(e) => setAuthor1(e.target.value)}
+                            className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div className="col-span-6 sm:col-span-3">
+                          <label className="block text-sm font-medium text-gray-700">
+                            Author 2
+                          </label>
+                          <input
+                            type="text"
+                            value={author2}
+                            onChange={(e) => setAuthor2(e.target.value)}
+                            className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div className="col-span-6 sm:col-span-2 self-center">
+                          <h1>Published Date</h1>
+                        </div>
+                        <div className="col-span-6 sm:col-span-6">
+                          <input
+                            type="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+
+                        <div className="col-span-6 sm:col-span-2 self-center">
+                          <h1>Title</h1>
+                        </div>
+                        <div className="col-span-6 sm:col-span-6">
+                          <input
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div className="col-span-6 sm:col-span-2 self-center">
+                          <h1>Publisher</h1>
+                        </div>
+                        <div className="col-span-6 sm:col-span-6">
+                          <input
+                            type="text"
+                            value={publisher}
+                            onChange={(e) => setPublisher(e.target.value)}
+                            className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div className="col-span-6 sm:col-span-2 self-center">
+                          <h1>URL</h1>
+                        </div>
+                        <div className="col-span-6 sm:col-span-6">
+                          <input
+                            type="text"
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div className="col-span-6 sm:col-span-2 self-center mt-2"></div>
+                        <div className="col-span-6 sm:col-span-2 self-center mt-2">
+                          <input
+                            type="checkbox"
+                            className="form-checkbox rounded-sm text-purple-500 mr-2 focus:outline-none focus:ring-opacity-0 focus:ring-purple-400"
+                          />
+                          <label>No published date</label>
+                        </div>
+                        <div className="col-span-6 sm:col-span-2 self-center mt-2">
+                          <input
+                            type="checkbox"
+                            className="form-checkbox rounded-sm text-purple-500 mr-2 focus:outline-none focus:ring-opacity-0 focus:ring-purple-400"
+                          />
+                          <label>More than 2 authors</label>
+                        </div>
+                      </div>
+                    </form>
                   </div>
 
                   <div className="flex flex-row items-center justify-center mt-10">
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md hover:bg-purple-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 uppercase"
-                      onClick={() => setOpen(false)}
+                      onClick={citeButtonClicked}
                     >
                       Manual Cite
                     </button>

@@ -14,14 +14,15 @@ interface CitationProps {
   metadata: CitingMetaData;
   styleSelected: CitingStyle;
   sourceSelected: CitingSource;
+  handleManualCite: (metadata: CitingMetaData) => void
 }
 
 const WebsiteCitation = ({
   metadata,
   styleSelected,
   sourceSelected,
+  handleManualCite
 }: CitationProps) => {
-  console.log(metadata);
   let authors = GetAuthor(metadata);
   let citingData = {
     ...metadata,
@@ -51,7 +52,7 @@ const WebsiteCitation = ({
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold">Citation Preview</h3>
           <span className="flex justify-end">
-            <ManualCitingModal metadata={metadata} />
+            <ManualCitingModal metadata={metadata} handleManualCite={handleManualCite}/>
             <button className="cursor-pointer flex flex-row bg-gray-100 text-gray-700 hover:text-gray-50 hover:bg-purple-500 p-2 rounded-md uppercase text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
