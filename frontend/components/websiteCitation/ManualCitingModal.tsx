@@ -13,9 +13,9 @@ export default function ManualCitingModal({
   handleManualCite,
 }: ManualCitingModalProps) {
   const [open, setOpen] = useState(false);
-  const [authors, setAuthors] = useState<string[]>([""]);
+  const [authors, setAuthors] = useState<string[]>(metadata.authors ? metadata.authors : [""]);
   const [author1, setAuthor1] = useState<string>(
-    metadata.authors?.length == 1 ? metadata.authors[0] : ""
+    metadata.authors ? metadata.authors[0] : ""
   );
   const [author2, setAuthor2] = useState<string>(
     metadata.authors?.length == 2 ? metadata.authors[1] : ""
@@ -30,15 +30,15 @@ export default function ManualCitingModal({
   const [url, setUrl] = useState<string>(metadata.url ? metadata.url : "");
 
   const citeButtonClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setAuthors([author1, author2]); 
     let manualCitingData = {
       ...metadata,
       authors: [author1, author2],
       date: date,
       title: title,
       publisher: publisher,
-      url: url
+      URL: url
     };
-    // console.log(manualCitingData);
     handleManualCite(manualCitingData);
     setOpen(false);
     e.preventDefault();
@@ -192,12 +192,12 @@ export default function ManualCitingModal({
                         <div className="col-span-6 sm:col-span-6">
                           <input
                             type="text"
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                            className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            defaultValue={url}
+                            disabled
+                            className="mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md cursor-not-allowed"
                           />
                         </div>
-                        <div className="col-span-6 sm:col-span-2 self-center mt-2"></div>
+                        {/* <div className="col-span-6 sm:col-span-2 self-center mt-2"></div>
                         <div className="col-span-6 sm:col-span-2 self-center mt-2">
                           <input
                             type="checkbox"
@@ -211,7 +211,7 @@ export default function ManualCitingModal({
                             className="form-checkbox rounded-sm text-purple-500 mr-2 focus:outline-none focus:ring-opacity-0 focus:ring-purple-400"
                           />
                           <label>More than 2 authors</label>
-                        </div>
+                        </div> */}
                       </div>
                     </form>
                   </div>
